@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/xt/code_collections/cpp/build",
-  "command": "/bin/x86_64-linux-gnu-g++-9   -isystem /usr/include/eigen3  -g   -o CMakeFiles/EigenUsage.dir/main.cpp.o -c /home/xt/code_collections/cpp/main.cpp",
-  "file": "/home/xt/code_collections/cpp/main.cpp"
-}
-]
