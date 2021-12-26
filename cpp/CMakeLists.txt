@@ -7,4 +7,6 @@ project(CodeCollection VERSION 0.1.0)
 
 # add_subdirectory(move_semantics)
 
-add_subdirectory(templates)
+# add_subdirectory(templates)
+
+add_subdirectory(cpp-forward)

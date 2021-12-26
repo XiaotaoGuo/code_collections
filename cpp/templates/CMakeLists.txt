@@ -1,1 +1,2 @@
 add_subdirectory(function_templates)
+add_subdirectory(class_templates)
