@@ -16,21 +16,18 @@ private:
 };
 
 int main() {
-    // unqiue_ptr would dispose resources when going out of scope
-    std::cout << "-------------\n";
-    { std::unique_ptr<Base> p2 = std::make_unique<Base>(1); }
-    std::cout << "-------------\n";
-
-    // unqiue_ptr can pass resource to another smart pointers
+    // shared_ptr can be used to shared management for resource
     std::cout << "-------------\n";
     {
-        std::unique_ptr<Base> p2 = nullptr;
+        std::shared_ptr<Base> p1 = std::make_shared<Base>(1);
+        std::cout << "Use count for 1: " << p1.use_count() << std::endl;
         std::cout << "================\n";
         {
-            std::unique_ptr<Base> p3 = std::make_unique<Base>(2);
-            p2 = std::move(p3);
+            std::shared_ptr<Base> p2 = p1;
+            std::cout << "Use count for 1: " << p1.use_count() << std::endl;
         }
-        std::cout << "==================\n";
+        std::cout << "================\n";
+        std::cout << "Use count for 1: " << p1.use_count() << std::endl;
     }
     std::cout << "-------------\n";
 
