@@ -27,11 +27,19 @@ void renderCube(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
 template <class PointType>
 void renderPoindCloud(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
                       boost::shared_ptr<pcl::PointCloud<PointType>>& cloud_ptr,
-                      std::string id = "temp",
-                      int view_port  = 0) {
-    viewer_ptr->addPointCloud<PointType>(cloud_ptr, id, view_port);
+                      std::string id                     = "temp",
+                      int view_port                      = 0,
+                      const std::vector<uint8_t>& colors = {255, 255, 255}) {
+    if (cloud_ptr == nullptr) return;
+    pcl::visualization::PointCloudColorHandlerCustom<PointType> color(cloud_ptr, colors[0], colors[1], colors[2]);
+    viewer_ptr->addPointCloud<PointType>(cloud_ptr, color, id, view_port);
     viewer_ptr->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, id, view_port);
 }
+
+void renderRGBPoindCloud(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
+                         boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>>& cloud_ptr,
+                         std::string id = "temp",
+                         int view_port  = 0);
 
 template <class PointType>
 void renderGrid(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
@@ -83,6 +91,39 @@ void renderGrid(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
         for (float y = grid_min_y; y <= grid_max_y; y += resolution) {
             renderLine(viewer_ptr, {x, y, grid_min_z}, {x, y, grid_max_z}, {0.5, 0.8, 0.5}, view_port);
         }
+    }
+}
+
+/***
+ * @brief get start index for each line from kitti pointcloud data
+ */
+template <typename PointType>
+void sortPointCloudByScanLine(boost::shared_ptr<pcl::PointCloud<PointType>>& src_cloud_ptr,
+                              std::vector<boost::shared_ptr<pcl::PointCloud<PointType>>>& dst_cloud_ptr_vec) {
+    const int N_SCAN  = 64;
+    dst_cloud_ptr_vec = std::vector<boost::shared_ptr<pcl::PointCloud<PointType>>>(N_SCAN);
+    PointType pt;
+    int line_id;
+
+    for (int i = 0; i < src_cloud_ptr->points.size(); ++i) {
+        pt      = src_cloud_ptr->points[i];
+        line_id = 0;
+
+        double elevation_angle = std::atan2(pt.z, std::sqrt(pt.x * pt.x + pt.y * pt.y)) / M_PI * 180.0;
+
+        // adapt from a-loam
+        if (elevation_angle >= -8.83)
+            line_id = int((2 - elevation_angle) * 3.0 + 0.5);
+        else
+            line_id = N_SCAN / 2 + int((-8.83 - elevation_angle) * 2.0 + 0.5);
+
+        if (elevation_angle > 2 || elevation_angle < -24.33 || line_id > 63 || line_id < 0) {
+            continue;
+        }
+
+        if (dst_cloud_ptr_vec[line_id] == nullptr)
+            dst_cloud_ptr_vec[line_id] = boost::make_shared<pcl::PointCloud<PointType>>();
+        dst_cloud_ptr_vec[line_id]->points.push_back(pt);
     }
 }
 }  // namespace visualization_utils

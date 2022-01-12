@@ -11,11 +11,11 @@
 
 int main(int argc, char** argv) {
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_ptr(new pcl::PointCloud<pcl::PointXYZ>());
-    if (pcl::io::loadPCDFile<pcl::PointXYZ>(
-            "/home/guo/personal/code_collections/cpp/pointcloud_process/sample_data/key_frame_20.pcd", *cloud_ptr) ==
-        -1)  //* load the file
+
+    std::string data_path = "pointcloud_process/sample_data/key_frame_20.pcd";
+    if (pcl::io::loadPCDFile<pcl::PointXYZ>(data_path, *cloud_ptr) == -1)  //* load the file
     {
-        PCL_ERROR("Couldn't read file test_pcd.pcd \n");
+        PCL_ERROR("Couldn't read test data \n");
         return (-1);
     }
 

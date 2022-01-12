@@ -2,6 +2,16 @@
 
 namespace visualization_utils {
 
+void renderRGBPoindCloud(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
+                         boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>>& cloud_ptr,
+                         std::string id,
+                         int view_port) {
+    if (cloud_ptr == nullptr) return;
+    pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(cloud_ptr);
+    viewer_ptr->addPointCloud<pcl::PointXYZRGB>(cloud_ptr, rgb, id, view_port);
+    viewer_ptr->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, id, view_port);
+}
+
 void renderBox(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
                const std::vector<float>& center,
                const std::vector<float>& size,

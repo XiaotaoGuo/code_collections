@@ -4,8 +4,6 @@
 #include <pcl/point_types.h>
 #include <unordered_map>
 
-// #include <pcl/filters/cropbox.h>
-
 namespace filtering {
 
 /**
