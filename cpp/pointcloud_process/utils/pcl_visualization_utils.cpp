@@ -85,6 +85,22 @@ void renderLine(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
                         view_port);
 }
 
+void renderLine(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
+                const std::vector<float>& start_pt,
+                const std::vector<float>& direction,
+                float scale,
+                const std::vector<float>& color,
+                int view_port) {
+    std::vector<float> end_pt = start_pt;
+
+    float sum = direction[0] + direction[1] + direction[2];
+    end_pt[0] += direction[0] / sum * scale;
+    end_pt[1] += direction[1] / sum * scale;
+    end_pt[2] += direction[2] / sum * scale;
+
+    renderLine(viewer_ptr, start_pt, end_pt, color, view_port);
+}
+
 void renderCube(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
                 const std::vector<float>& center,
                 const std::vector<float>& size,

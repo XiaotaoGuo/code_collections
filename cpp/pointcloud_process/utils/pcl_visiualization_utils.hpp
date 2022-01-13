@@ -17,6 +17,13 @@ void renderLine(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
                 const std::vector<float>& color,
                 int view_port = 0);
 
+void renderLine(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
+                const std::vector<float>& start_pt,
+                const std::vector<float>& direction,
+                float scale,
+                const std::vector<float>& color,
+                int view_port = 0);
+
 void renderCube(pcl::visualization::PCLVisualizer::Ptr& viewer_ptr,
                 const std::vector<float>& center,
                 const std::vector<float>& size,
