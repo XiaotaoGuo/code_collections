@@ -65,3 +65,6 @@ target_link_libraries(unstable_points_removal ${PCL_LIBRARIES})
 
 add_executable(pointcloud_pca model_fitting/pointcloud_pca.cpp ${SRC_FILES})
 target_link_libraries(pointcloud_pca ${PCL_LIBRARIES})
+
+add_executable(pointcloud_ransac model_fitting/pointcloud_ransac.cpp ${SRC_FILES})
+target_link_libraries(pointcloud_ransac ${PCL_LIBRARIES})
