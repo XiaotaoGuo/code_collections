@@ -6,3 +6,5 @@
 **.o
 **.s
 **/a.out
+
+.DS_Store
