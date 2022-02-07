@@ -1,0 +1,3 @@
+[submodule "cpp/3rd_parties/sciplot"]
+	path = cpp/3rd_parties/sciplot
+	url = https://github.com/sciplot/sciplot
